@@ -14,4 +14,8 @@ export function usePokemon() {
     const [pokemon, setPokemon] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        
+    })
 }
