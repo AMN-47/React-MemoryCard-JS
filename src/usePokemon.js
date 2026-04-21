@@ -16,6 +16,12 @@ export function usePokemon() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        
+        async function fetchPokemon() {
+            try {
+                setLoading(true);
+                setError(null);
+                const ids = getRandomIds(CARD_COUNT);
+            }
+        }
     })
 }
