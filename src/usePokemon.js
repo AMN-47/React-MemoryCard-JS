@@ -8,4 +8,8 @@ function getRandomIds(count, max = 151) {
         ids.add(Math.floor(Math.random() * max) + 1)
     }
     return [...ids]
+} 
+
+export function usePokemon() {
+    
 }
