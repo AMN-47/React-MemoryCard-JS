@@ -39,6 +39,8 @@ export function usePokemon() {
                         types: p.types.map(t => t.type.name),
                     }))
                 );
+            } catch (err) {
+                setError(err.message)
             }
         }
     })
