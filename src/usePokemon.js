@@ -28,7 +28,17 @@ export function usePokemon() {
                             return r.json();
                         })
                     )
-                )
+                );
+                setPokemon(
+                    results.at.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        image:
+                            p.sprites.other['official-artwork'].front_default ||
+                            p.sprites.front_default,
+                        types: p.types.map(t => t.type.name),
+                    }))
+                );
             }
         }
     })
