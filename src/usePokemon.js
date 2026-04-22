@@ -21,6 +21,14 @@ export function usePokemon() {
                 setLoading(true);
                 setError(null);
                 const ids = getRandomIds(CARD_COUNT);
+                const results = await Promise.all(
+                    ids.map(id => 
+                        fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => {
+                            if (!r.ok) throw new Error(`Failed to fetch Pokémon #${id}`);
+                            return r.json();
+                        })
+                    )
+                )
             }
         }
     })
