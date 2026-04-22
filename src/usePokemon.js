@@ -41,6 +41,8 @@ export function usePokemon() {
                 );
             } catch (err) {
                 setError(err.message)
+            } finally {
+                setLoading(false);
             }
         }
     })
