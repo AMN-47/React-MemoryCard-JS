@@ -48,5 +48,5 @@ export function usePokemon() {
         fetchPokemon()
     }, []);
 
-    
+    return {pokemon, loading, error};
 }
