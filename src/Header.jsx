@@ -11,6 +11,10 @@ export default function Header({ score, bestScore, total }) {
                     <p className ="header__subtitle">Dont click the same Pokémon twice!</p>
                 </div>
             </div>
+
+            <div className="header__scores">
+                
+            </div>
         </header>
     );
 }
