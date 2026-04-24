@@ -17,6 +17,10 @@ export default function Header({ score, bestScore, total }) {
                     <span className="score-card__label">Score</span>
                     <span className="score-card__value">{score}<span className="score-card__total">{total}</span></span>
                 </div>
+                <div className="score-card score-card--best">
+                    <span className="score-card__label">Best</span>
+                    <span className="score-card__value">{bestScore}<span className="score-card__total">{total}</span></span>
+                </div>
             </div>
         </header>
     );
