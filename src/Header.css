@@ -1,0 +1,137 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--red-dark);
+  border-bottom: 3px solid var(--red-accent);
+  position: relative;
+  overflow: hidden;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Scanline texture */
+.header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+}
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1;
+}
+
+/* Pokéball icon built with CSS */
+.header__pokeball {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff 50%, #222 50%);
+  border: 3px solid #fff;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--red-accent);
+}
+.header__pokeball::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #333;
+  z-index: 2;
+}
+.header__pokeball::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(50% - 1.5px);
+  width: 100%;
+  height: 3px;
+  background: #333;
+}
+
+.header__title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+}
+
+.header__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.header__scores {
+  display: flex;
+  gap: 0.75rem;
+  z-index: 1;
+}
+
+.score-card {
+  background: rgba(0,0,0,0.35);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 0.5rem 1.25rem;
+  text-align: center;
+  min-width: 80px;
+  backdrop-filter: blur(4px);
+}
+
+.score-card--best {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.score-card__label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+
+.score-card--best .score-card__label {
+  color: var(--gold);
+}
+
+.score-card__value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: #fff;
+  line-height: 1;
+}
+
+.score-card--best .score-card__value {
+  color: var(--gold);
+}
+
+.score-card__total {
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
