@@ -25,4 +25,11 @@ const TYPE_COLORS = {
 
 export default function Card({ id, name, image, types, onClick }) {
     const [flipping, setFlipping] = useState(false);
+
+    function handleClick() {
+        if (flipping) return;
+        setFlipping(true);
+        setTimeout(() => setFlipping(false), 400);
+        onClick(id);
+    }
 }
