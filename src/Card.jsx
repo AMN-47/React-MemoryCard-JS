@@ -32,4 +32,46 @@ export default function Card({ id, name, image, types, onClick }) {
         setTimeout(() => setFlipping(false), 400);
         onClick(id);
     }
+
+    const typeColor = TYPE_COLORS[types?.[0] || '#888']
+
+    return (
+    <div
+      className={`card ${flipping ? 'card--flip' : ''}`}
+      onClick={handleClick}
+      style={{ '--type-color': typeColor }}
+      role="button"
+      aria-label={`Pokémon card: ${name}`}
+      tabIndex={0}
+      onKeyDown={e => e.key === 'Enter' && handleClick()}
+    >
+      <div className="card__inner">
+        <div className="card__shine" aria-hidden="true" />
+        <div className="card__image-wrap">
+          <img
+            className="card__image"
+            src={image}
+            alt={name}
+            loading="lazy"
+          />
+        </div>
+        <div className="card__footer">
+          <div className="card__name">
+            {name.charAt(0).toUpperCase() + name.slice(1)}
+          </div>
+          <div className="card__types">
+            {types?.map(t => (
+              <span
+                key={t}
+                className="card__type-badge"
+                style={{ background: TYPE_COLORS[t] || '#888' }}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
