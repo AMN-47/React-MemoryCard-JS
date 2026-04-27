@@ -1,121 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useState, useEffect, useCallback } from 'react';
+import Header from './components/Header';
+import GameBoard from './components/GameBoard';
+import GameOverlay from './components/GameOverlay';
+import { usePokemon } from './hooks/usePokemon';
+import { shuffle } from './utils/shuffle';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const { pokemon, loading, error } = usePokemon();
+
+  const [cards, setCards] = useState([]);
+  const [clickedIds, setClickedIds] = useState(new Set());
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [gameStatus, setGameStatus] = useState('playing'); // 'playing' | 'win' | 'lose'
+
+  // Shuffle cards once pokemon are loaded
+  useEffect(() => {
+    if (pokemon.length > 0) {
+      setCards(shuffle(pokemon));
+    }
+  }, [pokemon]);
+
+  const handleCardClick = useCallback(
+    (id) => {
+      if (gameStatus !== 'playing') return;
+
+      if (clickedIds.has(id)) {
+        // Player clicked a card they already clicked — LOSE
+        setGameStatus('lose');
+        return;
+      }
+
+      const newClickedIds = new Set(clickedIds);
+      newClickedIds.add(id);
+      const newScore = score + 1;
+
+      setClickedIds(newClickedIds);
+      setScore(newScore);
+
+      if (newScore > bestScore) {
+        setBestScore(newScore);
+      }
+
+      if (newClickedIds.size === pokemon.length) {
+        // Player clicked every card exactly once — WIN
+        setGameStatus('win');
+        return;
+      }
+
+      // Shuffle after every successful click
+      setCards(prev => shuffle(prev));
+    },
+    [clickedIds, score, bestScore, gameStatus, pokemon.length]
+  );
+
+  function handleRestart() {
+    setClickedIds(new Set());
+    setScore(0);
+    setGameStatus('playing');
+    setCards(shuffle(pokemon));
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app">
+      <Header
+        score={score}
+        bestScore={bestScore}
+        total={pokemon.length}
+      />
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {loading && (
+        <div className="app__loading">
+          <div className="app__pokeball-spinner" aria-label="Loading..." />
+          <p>Fetching Pokémon…</p>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {error && (
+        <div className="app__error">
+          <p>Oops! {error}</p>
+          <button onClick={() => window.location.reload()}>Retry</button>
+        </div>
+      )}
+
+      {!loading && !error && (
+        <GameBoard cards={cards} onCardClick={handleCardClick} />
+      )}
+
+      {(gameStatus === 'win' || gameStatus === 'lose') && (
+        <GameOverlay
+          type={gameStatus}
+          score={score}
+          total={pokemon.length}
+          onRestart={handleRestart}
+        />
+      )}
+    </div>
+  );
 }
-
-export default App
