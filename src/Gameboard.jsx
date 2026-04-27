@@ -8,6 +8,12 @@ export default function GameBoard({cards, onCardClick}) {
             <div className='gameboard__grid'>
                 {cards.map(card => (
                     <Card
+                    key={card.id}
+                    id={card.id}
+                    name={card.name}
+                    image={card.image}
+                    types={card.types}
+                    onclicl={onCardClick}
                     />
                 ))}
             </div>
