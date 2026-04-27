@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Header from './components/Header';
-import GameBoard from './components/GameBoard';
-import GameOverlay from './components/GameOverlay';
-import { usePokemon } from './hooks/usePokemon';
-import { shuffle } from './utils/shuffle';
+import Header from './Header';
+import GameBoard from './GameBoard';
+import GameOverlay from './GameOverlay';
+import { usePokemon } from './usePokemon';
+import { shuffle } from './shuffle';
 import './App.css';
 
 export default function App() {
