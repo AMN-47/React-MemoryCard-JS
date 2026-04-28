@@ -30,7 +30,7 @@ export function usePokemon() {
                     )
                 );
                 setPokemon(
-                    results.at.map(p => ({
+                    results.map(p => ({
                         id: p.id,
                         name: p.name,
                         image:
