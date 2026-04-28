@@ -2,7 +2,7 @@ import React from 'react';
 import './GameOverlay.css';
 
 export default function GameOverlay({ type, score, total, onRestart}) {
-     const isWin = type === 'win';
+  const isWin = type === 'win';
  
   return (
     <div className={`overlay overlay--${type}`} role="dialog" aria-modal="true">

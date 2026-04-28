@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import './Gameboard.css';
 
-export default function GameBoard({cards, onCardClick}) {
+export default function GameBoard({ cards, onCardClick }) {
     return(
         <main className='gameboard'>
             <div className='gameboard__grid'>
