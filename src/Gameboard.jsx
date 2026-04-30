@@ -13,7 +13,7 @@ export default function GameBoard({ cards, onCardClick }) {
                     name={card.name}
                     image={card.image}
                     types={card.types}
-                    onclicl={onCardClick}
+                    onClick={onCardClick}
                     />
                 ))}
             </div>
